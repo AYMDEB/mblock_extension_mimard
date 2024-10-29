@@ -1,1 +1,1 @@
-
+Pour réaliser des modifications de l'extension, il est impératif d'utiliser les librairies fournies car plusieurs ont été modifiées afin de fonctionner avec mblock suite à plusieurs bugs découverts lors des essais.
