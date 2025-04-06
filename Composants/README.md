@@ -9,5 +9,48 @@ Je pense que c'est du au fait que le programme fait relancer un 2ème signal ult
 Pour corriger ce défaut (et faire un code plus propre) il suffit de stocker la valeur du capteur dans une variable et de faire les tests sur cette variable :
 ![image](https://github.com/user-attachments/assets/1f82acd4-3911-4cc3-be0e-1eaf01e90a46)
 
-#Servomoteur
+# Servomoteur
 Le servomoteur ne peut s'orienter qu'entre 0° et 180°. les angles inférieur à 0 sont considérés comme nul, les angles supérieur à 180 sont considérés comme égaux à 180° : https://github.com/arduino-libraries/Servo/blob/master/src/avr/Servo.cpp
+
+# Carte moteur L298P
+### Adressage I2C
+![image](https://github.com/user-attachments/assets/15ce8b1a-7cc5-4677-9e6f-24ac51e8fd68)
+
+L’adresse I2C de ces cartes est paramétrable à l’aide de petits cavalier (encadrés en rouge).
+L’adresse se construit en binaire et peut donc aller de 0b0000 à 0b1111.
+Une absence de cavalier correspond à un 1 et la présence d’un cavalier à un 0.
+Ainsi, par défaut la carte n’ayant pas de cavalier, sont adresse est 0b1111 soit 0x0F.
+L’attribution de l’adresse se fait à la mise sous tension de l’ensemble carte moteur + Arduino.
+### Branchement des moteurs
+![image](https://github.com/user-attachments/assets/d2c4281d-6d82-42e6-9cf1-3a108e310ef9)
+
+Les moteurs se branchent sur ces borniers à vis :
+M1- et M1+ pour le moteur 1
+M2- et M2+ pour le moteur 2
+Pour les moteurs à courant continu, il n’y a pas vraiment de + et de – car le sens du courant détermine le sens de rotation. Donc il suffit de brancher le moteur et s’il tourne dans le mauvais sens, on inverse le branchement.
+La vitesse de rotation d’un moteur à courant continu dépend de la tension qu’il reçoit, la carte va donc faire varier la tension pour ajuster la vitesse des moteurs.
+
+Dans mblock, ce bloc sert à piloter les moteurs :
+ ![image](https://github.com/user-attachments/assets/40a5d63a-b517-4607-8975-331ebd164e5e)
+ 
+Vitesse du moteur 1 à 100 signifie qu’on envoie 100% de la tension au moteur 1
+Vitesse à -100 signifie qu’on envoie 100% de la tension au moteur mais en inversant la polarité (+ et -) donc le moteur 2 tournera à l’envers
+ ![image](https://github.com/user-attachments/assets/82b964f9-1e23-4cf2-b668-3209fee022f3)
+ 
+Ce bloc enverra 25% de la tension au moteur 1 donc le moteur 1 tournera 4 fois moins vite que sa vitesse max.
+
+### Alimentation de la carte
+![image](https://github.com/user-attachments/assets/f4e19615-58b4-4ac4-ba33-c0d53b4e1430) ![image](https://github.com/user-attachments/assets/7a7f3803-5226-4e3b-b188-bd5b1ffc4bce)
+
+#### Via la carte Arduino
+Le connecteur Grove (blanc) apporte la tension de l’Arduino à la carte moteur. La tension de l’Arduino transmise par le connecteur Grove est sélectionnée avec un interrupteur : Pour alimenter des moteurs, il faut le mettre en position 5V
+Pour utiliser cette tension pour faire tourner les moteurs, il faut mettre un cavalier sur les broches encadrées en rouge.
+Avantages : Simplicité d’utilisation, moins de composants nécessaires
+Inconvénients : Tension limité, courant limité
+
+#### Via le bornier à vis
+Si on a besoin de tension plus élevées (pour aller plus vite) ou de courant plus élevé (pour avoir plus de couple) il est nécessaire d’utiliser le bornier à vis avec une source d’alimentation annexe. (encadré en vert)
+
+#### Via la broche Vin
+Cette alimentation est situationnelle et nécessite de prendre certaines précautions car il peut y avoir une dégradation de la carte Arduino, demander au professeur si aucune des 2 autres méthodes ne vous convient
+
