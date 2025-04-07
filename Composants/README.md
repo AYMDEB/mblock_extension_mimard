@@ -54,3 +54,21 @@ Si on a besoin de tension plus élevées (pour aller plus vite) ou de courant pl
 #### Via la broche Vin
 Cette alimentation est situationnelle et nécessite de prendre certaines précautions car il peut y avoir une dégradation de la carte Arduino, demander au professeur si aucune des 2 autres méthodes ne vous convient
 
+# gyro-accéléromètre
+Ce capteur permet de mesurer des angles dans l'espace.
+le tangage et le roulis sont mesurés par rapport au sol. Pour la mesure du lacet, le gyroscope mesure la vitesse de rotation (en °/s) autours des 3 axes. En échantillonnant le signal il est donc possible de remonter à un angle de rotation.
+Par contre cette méthode n’est pas précise dans la durée et doit être réservée pour mesurer le lacet sur une seule rotation, un relevé permanent des valeurs va forcément glisser jusqu’à être complètement faussé.
+
+# Capteur de couleur 
+Les données renvoyée par le capteur de couleur dépendent de la distance entre le capteur et l'objet à détecter, de la composition de la couleur ainsi que de la luminosité ambiante. Ainsi il est nécessaire de réaliser un premier étalonnage des couleurs à détecter :
+1) afficher les données brutes RVB du capteur sur un écran.
+2) Procéder à une détection de la couleur dans les conditions finales d'utilisation du capteur
+3) recopier les valeurs lues dans les blocs d'étalonnage.
+
+# Encodeur
+Un encodeur sert à mesurer l'angle de rotation d'un moteur.
+Il faut rechercher dans la documentation de l'encodeur son nombre d'impulsions pour 1 tour.
+Lorsque le capteur renverra cette valeur c'est que le moteur aura fait 1 tour.
+Si le moteur est équipé d'une transmission, il faut prendre en compte le rapport de transmission.
+ex : l'encodeur du petit moteur effectue 17 impulsions par tour. Il est équipé d'un réducteur 298:1 sur lequel est fixé une roue.
+Si on veux que la roue avance de 10 tours, il faut que l'encodeur envoie (17x10x298) 50 660 impulsions 
