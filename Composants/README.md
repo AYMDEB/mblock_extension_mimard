@@ -13,6 +13,10 @@ Pour corriger ce défaut (et faire un code plus propre) il suffit de stocker la 
 Le servomoteur ne peut s'orienter qu'entre 0° et 180°. les angles inférieur à 0 sont considérés comme nul, les angles supérieur à 180 sont considérés comme égaux à 180° : https://github.com/arduino-libraries/Servo/blob/master/src/avr/Servo.cpp
 
 # Carte moteur L298P
+Comme il se branche en I2C, il nécessite d'être initialisé au démarage :
+
+![image](https://github.com/user-attachments/assets/22c88d67-b82e-4aac-9894-9494f8b35ee2)
+
 ### Adressage I2C
 ![image](https://github.com/user-attachments/assets/15ce8b1a-7cc5-4677-9e6f-24ac51e8fd68)
 
@@ -55,15 +59,37 @@ Si on a besoin de tension plus élevées (pour aller plus vite) ou de courant pl
 Cette alimentation est situationnelle et nécessite de prendre certaines précautions car il peut y avoir une dégradation de la carte Arduino, demander au professeur si aucune des 2 autres méthodes ne vous convient
 
 # gyro-accéléromètre
-Ce capteur permet de mesurer des angles dans l'espace.
-le tangage et le roulis sont mesurés par rapport au sol. Pour la mesure du lacet, le gyroscope mesure la vitesse de rotation (en °/s) autours des 3 axes. En échantillonnant le signal il est donc possible de remonter à un angle de rotation.
+Comme il se branche en I2C, il nécessite d'être initialisé au démarage :
+
+![image](https://github.com/user-attachments/assets/a26957c2-74bf-4557-9911-0351729e260a)
+
+Ce capteur permet de mesurer des angles dans l'espace :
+
+![image](https://github.com/user-attachments/assets/81ee5787-ee1f-4473-a88b-94bef90e9548)
+
+Le tangage et le roulis sont mesurés par rapport au sol (utilisation de la gravité). Pour la mesure du lacet, le gyroscope mesure la vitesse de rotation (en °/s) autours des 3 axes. En échantillonnant le signal il est donc possible de remonter à un angle de rotation.
 Par contre cette méthode n’est pas précise dans la durée et doit être réservée pour mesurer le lacet sur une seule rotation, un relevé permanent des valeurs va forcément glisser jusqu’à être complètement faussé.
+Concernant les blocs, la valeur du lacet ne peut être utilisée que à l'interieur de la répétition associée :
+
+![image](https://github.com/user-attachments/assets/6fd9d7f5-c433-40fa-935d-cb499b76a74d)
+
 
 # Capteur de couleur 
+Comme il se branche en I2C, il nécessite d'être initialisé au démarage :
+
+![image](https://github.com/user-attachments/assets/c2ad1efd-27c1-42e5-a5df-91bb7b386df7)
+
 Les données renvoyée par le capteur de couleur dépendent de la distance entre le capteur et l'objet à détecter, de la composition de la couleur ainsi que de la luminosité ambiante. Ainsi il est nécessaire de réaliser un premier étalonnage des couleurs à détecter :
-1) afficher les données brutes RVB du capteur sur un écran.
-2) Procéder à une détection de la couleur dans les conditions finales d'utilisation du capteur
-3) recopier les valeurs lues dans les blocs d'étalonnage.
+1) afficher les données brutes RVB du capteur sur un écran. 
+![image](https://github.com/user-attachments/assets/073552a0-6d46-4326-ac4e-19884953b5bf)
+
+2) Procéder à une détection de la couleur dans les conditions finales d'utilisation du capteur (distance, luminosité)
+3) recopier les valeurs lues dans les blocs d'étalonnage. 
+![image](https://github.com/user-attachments/assets/8fdd2ccd-08e5-4a6f-9db6-67d62a24d8cb)
+
+4) Les blocs de détection peuvent maintenant être utilisés car ils vont comparer les valeurs lue par le capteur aux valeurs des couleurs initialisées, celle qui a l'écart le plus faible sera la couleur détectée.
+![image](https://github.com/user-attachments/assets/9d7c198d-3144-4d6a-a16e-52be129283b7)
+
 
 # Encodeur
 Un encodeur sert à mesurer l'angle de rotation d'un moteur.
